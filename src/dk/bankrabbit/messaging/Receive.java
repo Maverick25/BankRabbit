@@ -40,7 +40,7 @@ public class Receive
         QueueingConsumer consumer = new QueueingConsumer(channel);
         channel.basicConsume(TASK_QUEUE_NAME, false, consumer);
 
-        HashMap<String,Object> returnObjects = new HashMap<String,Object>();
+        HashMap<String,Object> returnObjects = new HashMap<>();
         
         returnObjects.put("channel",channel);
         returnObjects.put("consumer",consumer);
