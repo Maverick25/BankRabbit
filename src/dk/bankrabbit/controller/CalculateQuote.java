@@ -47,8 +47,7 @@ public class CalculateQuote
           
           loanResponseDTO = new LoanResponseDTO(interestRate, loanRequestDTO.getSsn());
           
-          sendMessage(loanResponseDTO);
-
+//          sendMessage(loanResponseDTO);
           channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         }
         
