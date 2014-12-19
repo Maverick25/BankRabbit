@@ -6,6 +6,7 @@
 package dk.bankrabbit.controller;
 
 import com.google.gson.Gson;
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
 import dk.bankrabbit.dto.LoanRequestDTO;
@@ -41,6 +42,9 @@ public class CalculateQuote
           QueueingConsumer.Delivery delivery = consumer.nextDelivery();
           String message = new String(delivery.getBody());
           
+          AMQP.BasicProperties props = delivery.getProperties();
+          AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder().correlationId(props.getCorrelationId()).replyTo(props.getReplyTo()).build();
+          
           loanRequestDTO = gson.fromJson(message, LoanRequestDTO.class);
           
           double interestRate = new Random().nextDouble()*20;
@@ -49,16 +53,16 @@ public class CalculateQuote
           
           System.out.println(loanResponseDTO.toString());
           
-//          sendMessage(loanResponseDTO);
+          sendMessage(loanResponseDTO,replyProps);
           channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         }
         
     }
     
-    public static void sendMessage(LoanResponseDTO dto) throws IOException
+    public static void sendMessage(LoanResponseDTO dto, AMQP.BasicProperties props) throws IOException
     {
         String message = gson.toJson(dto);
         
-        Send.sendMessage(message);
+        Send.sendMessage(message,props);
     }
 }

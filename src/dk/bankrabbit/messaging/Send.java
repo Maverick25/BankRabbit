@@ -5,6 +5,8 @@
  */
 package dk.bankrabbit.messaging;
 
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -17,10 +19,11 @@ import java.io.IOException;
  */
 public class Send 
 {
-    private static final String TASK_QUEUE_NAME = "queue_aggregator";
-    
-    public static void sendMessage(String message) throws IOException 
+   
+    public static void sendMessage(String message, BasicProperties props) throws IOException 
     {
+        String taskQueueName = props.getReplyTo();
+        
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("datdb.cphbusiness.dk");
 	factory.setUsername("student");
@@ -28,9 +31,9 @@ public class Send
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
         
-        channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
+        channel.queueDeclare(taskQueueName, true, false, false, null);
         
-        channel.basicPublish( "", TASK_QUEUE_NAME, 
+        channel.basicPublish( "", taskQueueName, 
                 MessageProperties.PERSISTENT_TEXT_PLAIN,
                 message.getBytes());
         

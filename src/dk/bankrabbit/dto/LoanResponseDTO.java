@@ -16,13 +16,13 @@ public class LoanResponseDTO implements Serializable
     private static final long serialVersionUID = 1L;
     
     private double interestRate;
-    private String ssn;
+    private long ssn;
     
     public LoanResponseDTO()
     {
     }
     
-    public LoanResponseDTO(double interestRate, String ssn)
+    public LoanResponseDTO(double interestRate, long ssn)
     {
         this.interestRate = interestRate;
         this.ssn = ssn;
@@ -36,11 +36,11 @@ public class LoanResponseDTO implements Serializable
         this.interestRate = interestRate;
     }
 
-    public String getSsn() {
+    public long getSsn() {
         return ssn;
     }
 
-    public void setSsn(String ssn) {
+    public void setSsn(long ssn) {
         this.ssn = ssn;
     }
 

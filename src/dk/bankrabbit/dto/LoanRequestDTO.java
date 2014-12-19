@@ -15,7 +15,7 @@ public class LoanRequestDTO implements Serializable
 {
     private static final long serialVersionUID = 1L;
    
-    private String ssn;
+    private long ssn;
     private double loanAmount;
     private int loanDuration;
     private int creditScore;
@@ -24,7 +24,7 @@ public class LoanRequestDTO implements Serializable
     {
     }
  
-    public LoanRequestDTO(String ssn, double loanAmount, int loanDuration, int creditScore)
+    public LoanRequestDTO(long ssn, double loanAmount, int loanDuration, int creditScore)
     {
         this.ssn = ssn;
         this.loanAmount = loanAmount;
@@ -32,12 +32,12 @@ public class LoanRequestDTO implements Serializable
         this.creditScore = creditScore;
     }
  
-    public String getSsn()
+    public long getSsn()
     {
         return ssn;
     }
  
-    public void setSsn(String ssn)
+    public void setSsn(long ssn)
     {
         this.ssn = ssn;
     }
